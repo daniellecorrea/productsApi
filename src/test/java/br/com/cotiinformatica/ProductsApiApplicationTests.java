@@ -8,22 +8,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.ArrayList;
 import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+
 import br.com.cotiinformatica.controllers.ProdutoController;
 import br.com.cotiinformatica.dtos.ProdutoRequestDto;
 import br.com.cotiinformatica.dtos.ProdutoResponseDto;
@@ -31,10 +37,13 @@ import br.com.cotiinformatica.handlers.ValidationExceptionHandler;
 import br.com.cotiinformatica.services.ProdutoService;
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(locations = "classpath:application-test.properties")
+@ExtendWith(MockitoExtension.class)
 class ProductsApiApplicationTests {
 	
 	@Autowired MockMvc mockMvc;
 	@MockBean ProdutoService produtoService;
+	
 	@InjectMocks ProdutoController produtoController;
 	
 	/*
@@ -46,7 +55,7 @@ class ProductsApiApplicationTests {
 	@BeforeEach
 	public void setUp() {
 		
-		MockitoAnnotations.initMocks(this); //inicializando o mockito
+		
 		
 		//configurando o controlador de produtos e os handlers de erros
 		mockMvc = MockMvcBuilders
